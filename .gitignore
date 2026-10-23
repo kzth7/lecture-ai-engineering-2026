@@ -3,6 +3,8 @@ __pycache__/
 .pytest_cache/
 *.pyc
 
+.python-version
+
 # 秘密情報はコミットしない（APIキーは Codespaces secret で渡す）
 .env
 .env.*
@@ -12,3 +14,5 @@ learning_log/
 
 # macOS
 .DS_Store
+
+.aider*

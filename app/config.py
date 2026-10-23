@@ -4,6 +4,7 @@ APIキーやモデル名はコードに書かず、環境変数から読み込�
 """
 
 import os
+from dotenv import load_dotenv
 
 # 既定モデル。環境変数 AIE_MODEL を設定すると切り替えられる。
 #   例: export AIE_MODEL=gemini-3.5-flash
@@ -24,13 +25,21 @@ def api_error_message(status: int, detail: str = "") -> str:
 
 def get_api_key() -> str:
     """環境変数 GEMINI_API_KEY を返す。未設定なら手順を表示して終了する。"""
+    # ローカル環境では .env ファイルから読み込み、Codespaces では環境変数から読み込む
+    if os.path.exists(".env"):
+        load_dotenv()
     key = os.getenv("GEMINI_API_KEY")
     if not key:
         raise SystemExit(
-            "環境変数 GEMINI_API_KEY が見つかりません。\n"
-            "1. GitHub の Settings → Codespaces → Secrets に GEMINI_API_KEY を登録し、\n"
-            "   使う repository に自分の fork を選んでください。\n"
-            "2. Codespaces を起動したあとに登録した場合は、Codespaces を再起動してください。\n"
-            "   （左下の「Codespaces」→「Stop Current Codespace」→ 再度開く）"
+            "環境変数 GEMINI_API_KEY が見つかりません。以下の対応をしてください。\n"
+            "<Local環境の場合>\n"
+            "  export で、もしくは、トップディレクトリに .env ファイルを作成して\n"
+            "  設定してください。\n"
+            "  （.env ファイルはリポジトリへ含まないように十分注意してください。）\n"
+            "<GitHubのWeb環境の場合>\n"
+            "  1. GitHub の Settings → Codespaces → Secrets に GEMINI_API_KEY を登録し、\n"
+            "     使う repository に自分の fork を選んでください。\n"
+            "  2. Codespaces を起動したあとに登録した場合は、Codespaces を再起動してください。\n"
+            "     （左下の「Codespaces」→「Stop Current Codespace」→ 再度開く）"
         )
     return key
