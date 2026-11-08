@@ -52,7 +52,25 @@
 
 ## 宿題
 
-- 取り組んだレベル：基礎 / 実装 / 発展
-- やったこと：
+- 取り組んだレベル：実装
+- やったこと：\
+claude code を用いて、第3回宿題資料.pdfのp1,2の実装に関する内容やヒントを与えてコーディング。
 - 結果：
-- 気づき・疑問：
+> % uv run python -m app.agent --trace "第3回の学習メモ：エージェントはモデル+ハーネス"\
+> [model] gemini-3.5-flash-lite\
+> ...（省略）...\
+> [承認待ち] save_learning_log({'note': 'エージェントはモデル+ハーネス', 'lecture': 3})\
+> 実行してよろしいですか？(y/n): y\
+> 第3回の学習記録として「エージェントはモデル+ハーネス」というメモを保存しました。素晴らしいまとめですね！\
+>
+> 第3回
+>
+> --- trace ---\
+> [tool call]   save_learning_log({'note': 'エージェントはモデル+ハーネス', 'lecture': 3})\
+> [tool return] save_learning_log -> 第3回の学習記録を保存しました。…\
+> [usage] RunUsage(cost=Decimal('0.000255'), details={'text_prompt_tokens': 600}, input_text_tokens=600, input_tokens=600, output_tokens=30, requests=1, tool_calls=1)
+
+- 気づき・疑問：\
+Pydantic AI なるフレームワークがあるとは知らず、こんなに簡単にエージェントにツールを持たせられるとは思わなかった。\
+コーディングはClaudeが簡単に実装してくれたが、今回のプログラムの全体の構造を読みながら、シンプルな見通しのよいフレームワークだと思った。\
+また、用語集（data/glossary.json）のように、データセットを構造的に作ることの重要性を改めて感じた。
