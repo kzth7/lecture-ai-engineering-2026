@@ -5,10 +5,13 @@
 """
 
 import json
+import random
+from datetime import datetime
 from functools import cache
 from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+LOG_DIR = Path(__file__).resolve().parent.parent / "learning_log"
 MAX_RESULTS = 3
 
 
@@ -77,3 +80,44 @@ def get_lecture_summary(lecture: int) -> str:
         available = sorted(p.stem for p in (DATA_DIR / "lectures").glob("*.md"))
         return f"第{lecture}回の要点はまだありません。用意されている回: {', '.join(available)}"
     return path.read_text(encoding="utf-8")
+
+
+def make_quiz(lecture: int) -> str:
+    """指定した回の用語から1つを選び、
+    確認問題と答えを返す。
+
+    「第2回の確認問題を出して」のように、
+    復習用の問題を求められたときに使う。
+    """
+    glossary = load_glossary()
+    candidates = [e for e in glossary if e["lecture"] == lecture]
+    if not candidates:
+        return f"第{lecture}回の用語はまだありません。"
+    entry = random.choice(candidates)
+    return json.dumps(
+        {
+            "question": f"「{entry['term']}」の意味は？",
+            "answer": entry["definition"],
+        },
+        ensure_ascii=False,
+    )
+
+
+def save_learning_log(lecture: int, note: str) -> str:
+    """学習した内容や気づきを、指定した回（1始まりの整数）の学習記録として保存する。
+
+    「"第3回の学習メモ：エージェントはモデル+ループ+ツール"」のように、
+    学習の記録・メモを残すよう頼まれたときに使う。
+    note には記録したい内容を、利用者の言葉をなるべく変えずに入れる。
+    保存前に利用者の承認を得る（requires_approval=True）。
+    """
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    log_file = LOG_DIR / f"{lecture:02d}.jsonl"
+    entry = {
+        "timestamp": datetime.now().isoformat(),
+        "lecture": lecture,
+        "note": note,
+    }
+    with open(log_file, "a", encoding="utf-8") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    return f"第{lecture}回の学習記録を保存しました。"
