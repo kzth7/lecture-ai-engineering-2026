@@ -15,4 +15,12 @@ learning_log/
 # macOS
 .DS_Store
 
+# aider関連
 .aider*
+
+# CLAUDE.md や Skills
+CLAUDE.md
+.claude/
+
+# tmp
+tmp/
