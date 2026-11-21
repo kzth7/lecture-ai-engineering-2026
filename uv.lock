@@ -27,11 +27,8 @@ dev = [
 requires-dist = [
     { name = "google-genai", specifier = "==2.31.0" },
     { name = "pydantic-ai-slim", extras = ["google", "mcp"], specifier = "==2.57.0" },
-<<<<<<< HEAD
     { name = "python-dotenv", specifier = ">=1.2.4" },
-=======
     { name = "sqlite-vec", specifier = "==0.1.9" },
->>>>>>> upstream/main
 ]
 
 [package.metadata.requires-dev]
