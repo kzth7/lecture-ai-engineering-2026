@@ -9,7 +9,7 @@ from pathlib import Path
 
 # 既定モデル。環境変数 AIE_MODEL を設定すると切り替えられる。
 #   例: export AIE_MODEL=gemini-3.5-flash
-#DEFAULT_MODEL = "gemini-4-hydrogen"
+# DEFAULT_MODEL = "gemini-4-hydrogen"
 DEFAULT_MODEL = "gemini-3.5-flash"
 MODEL = os.getenv("AIE_MODEL", DEFAULT_MODEL)
 
@@ -20,7 +20,7 @@ RAG_TREE = ROOT / "data/rag_data/tree.json"
 RAG_GRAPH = ROOT / "data/rag_data/graph.json"
 RAG_DB = Path(os.getenv("AIE_RAG_DB", str(ROOT / "data/rag_data/index.sqlite3")))
 RAG_DOCUMENT_IDS = ("lec01-main", "lec02-main", "lec03-main")
-RAG_TOP_K = 5
+RAG_TOP_K = 3
 GRAPH_START_K = 3
 GRAPH_HOPS = 2
 GRAPH_MAX_RESULTS = 10
